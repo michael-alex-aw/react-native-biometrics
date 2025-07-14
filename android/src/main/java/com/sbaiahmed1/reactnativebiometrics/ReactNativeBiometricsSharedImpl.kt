@@ -25,7 +25,6 @@ import java.security.Signature
 import java.security.UnrecoverableKeyException
 import java.security.cert.CertificateException
 import java.security.interfaces.RSAPublicKey
-import androidx.core.content.edit
 
 /**
  * Shared implementation for ReactNativeBiometrics that contains all the core logic.
@@ -326,7 +325,7 @@ class ReactNativeBiometricsSharedImpl(private val context: ReactApplicationConte
 
   fun setDebugMode(enabled: Boolean, promise: Promise) {
     val sharedPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    sharedPrefs.edit { putBoolean("debugMode", enabled) }
+    sharedPrefs.edit().putBoolean("debugMode", enabled).apply()
 
     if (enabled) {
       android.util.Log.d("ReactNativeBiometrics", "Debug mode enabled")
@@ -347,7 +346,7 @@ class ReactNativeBiometricsSharedImpl(private val context: ReactApplicationConte
 
     configuredKeyAlias = keyAlias
     val sharedPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    sharedPrefs.edit { putString(KEY_ALIAS_PREF, keyAlias) }
+    sharedPrefs.edit().putString(KEY_ALIAS_PREF, keyAlias).apply()
 
     debugLog("Key alias configured successfully: $keyAlias")
     promise.resolve(null)
